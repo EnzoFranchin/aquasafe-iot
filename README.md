@@ -212,8 +212,7 @@ O dashboard é servido diretamente pelo ESP32 e acessível em qualquer navegador
 
 ## Vídeo de Demonstração
 
-https://youtu.be/Es4YL9ZiThw
-
+https://youtu.be/f5DcpC2tS2Q
 ---
 
 ## Integrantes
