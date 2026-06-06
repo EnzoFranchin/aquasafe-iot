@@ -11,19 +11,19 @@ const int PIN_POT_CHUVA = 4;
 const int LED_AMARELO = 17;
 const int LED_VERMELHO = 18;
 
-// rede simulada do Wokwi
+
 const char* ssid = "Wokwi-GUEST";
 const char* password = "";
 
 WebServer server(80);
 
-// variaveis globais com as leituras atuais
+
 int nivelAguaPorcentagem = 0;
 int chuvaPorcentagem = 0;
 String nivelRisco = "BAIXO";
 bool alertaAtivo = false;
 
-// calcula o nivel de risco conforme as regras do projeto
+
 String calcularRisco(int nivel) {
   if (nivel >= 85) return "CRITICO";
   if (nivel >= 70) return "ALTO";
@@ -31,7 +31,7 @@ String calcularRisco(int nivel) {
   return "BAIXO";
 }
 
-// endpoint 1 - /status : retorna o status geral do sistema
+
 void handleStatus() {
   String json = "{";
   json += "\"nivelAgua\":" + String(nivelAguaPorcentagem) + ",";
@@ -43,7 +43,7 @@ void handleStatus() {
   server.send(200, "application/json", json);
 }
 
-// endpoint 2 - /leitura : retorna os dados brutos dos sensores
+
 void handleLeitura() {
   String json = "{";
   json += "\"nivelAgua\":" + String(nivelAguaPorcentagem) + ",";
@@ -53,7 +53,7 @@ void handleLeitura() {
   server.send(200, "application/json", json);
 }
 
-// endpoint 3 - /alerta : retorna o alerta ativo (se houver)
+
 void handleAlerta() {
   String mensagem = "Situacao normal.";
   if (nivelRisco == "CRITICO")    mensagem = "Risco critico! Evacuacao imediata.";
@@ -69,7 +69,7 @@ void handleAlerta() {
   server.send(200, "application/json", json);
 }
 
-// dashboard - / : pagina HTML com os dados em tempo real
+
 void handleDashboard() {
   String corRisco = "#28a745";
   if (nivelRisco == "CRITICO")    corRisco = "#dc3545";
@@ -147,7 +147,7 @@ void setup() {
   lcd.setCursor(0, 1);
   lcd.print("Conectando...");
 
-  // conecta ao Wi-Fi e aguarda conexao
+ 
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
@@ -158,7 +158,7 @@ void setup() {
   Serial.print("Conectado! IP: ");
   Serial.println(WiFi.localIP());
 
-  // exibe o IP no LCD por 2 segundos
+
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("WiFi OK!");
@@ -167,7 +167,7 @@ void setup() {
   delay(2000);
   lcd.clear();
 
-  // registra as rotas do servidor
+
   server.on("/", handleDashboard);
   server.on("/status", handleStatus);
   server.on("/leitura", handleLeitura);
@@ -180,7 +180,7 @@ void setup() {
 }
 
 void loop() {
-  // leitura do sensor ultrasonico (nivel da agua)
+
   digitalWrite(PIN_TRIG, LOW);
   delayMicroseconds(2);
   digitalWrite(PIN_TRIG, HIGH);
@@ -194,15 +194,15 @@ void loop() {
   if (nivelAguaPorcentagem < 0)   nivelAguaPorcentagem = 0;
   if (nivelAguaPorcentagem > 100) nivelAguaPorcentagem = 100;
 
-  // leitura do sensor de chuva (potenciometro simulado)
+ 
   int chuva = analogRead(PIN_POT_CHUVA);
   chuvaPorcentagem = map(chuva, 0, 4095, 0, 100);
 
-  // atualiza o nivel de risco e o estado do alerta
+
   nivelRisco = calcularRisco(nivelAguaPorcentagem);
   alertaAtivo = (nivelRisco == "CRITICO");
 
-  // atualiza o display LCD
+  
   lcd.setCursor(0, 0);
   lcd.print("Ag:");
   lcd.print(nivelAguaPorcentagem);
@@ -229,7 +229,7 @@ void loop() {
     digitalWrite(LED_VERMELHO, LOW);
   }
 
-  // processa as requisicoes HTTP recebidas
+  
   server.handleClient();
   delay(500);
 }
