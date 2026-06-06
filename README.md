@@ -4,6 +4,7 @@
 > Disciplina: Disruptive Architectures: IoT, IoB & Generative IA
 > Turma: 2TDSPI — Turmas de Fevereiro
 
+(Nosso serial monitor não funciona)
 ---
 
 ## Sumário
@@ -211,7 +212,7 @@ O dashboard é servido diretamente pelo ESP32 e acessível em qualquer navegador
 
 ## Vídeo de Demonstração
 
-Link do vídeo no YouTube: *(adicionar link após gravação)*
+https://youtu.be/Es4YL9ZiThw
 
 ---
 
